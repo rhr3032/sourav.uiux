@@ -9,12 +9,20 @@ const EducationSkills = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch('/api/page-data');
-                if (!res.ok) throw new Error('Failed to fetch');
+                const res = await fetch('/api/page-data', { cache: 'no-store' });
+                if (!res.ok) {
+                    console.error('API Response Status:', res.status);
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
                 const data = await res.json();
-                setEductionData(data?.educationData);
+                if (data?.educationData) {
+                    setEductionData(data.educationData);
+                } else {
+                    console.warn('No educationData in response:', data);
+                }
             } catch (error) {
-                console.error('Error fetching services:', error);
+                console.error('Error fetching education data:', error);
+                setEductionData(null);
             }
         };
 

@@ -10,12 +10,20 @@ const LatestWork = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch('/api/work-data');
-                if (!res.ok) throw new Error('Failed to fetch');
+                const res = await fetch('/api/work-data', { cache: 'no-store' });
+                if (!res.ok) {
+                    console.error('API Response Status:', res.status);
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
                 const data = await res.json();
-                setWorkData(data?.workData);
+                if (data?.workData) {
+                    setWorkData(data.workData);
+                } else {
+                    console.warn('No workData in response:', data);
+                }
             } catch (error) {
-                console.error('Error fetching services:', error);
+                console.error('Error fetching work data:', error);
+                setWorkData([]);
             }
         };
 

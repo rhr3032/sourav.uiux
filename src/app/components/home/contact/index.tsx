@@ -16,12 +16,20 @@ const Contact = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch('/api/page-data');
-                if (!res.ok) throw new Error('Failed to fetch');
+                const res = await fetch('/api/page-data', { cache: 'no-store' });
+                if (!res.ok) {
+                    console.error('API Response Status:', res.status);
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
                 const data = await res.json();
-                setContactData(data?.contactLinks);
+                if (data?.contactLinks) {
+                    setContactData(data.contactLinks);
+                } else {
+                    console.warn('No contactLinks in response:', data);
+                }
             } catch (error) {
-                console.error('Error fetching services:', error);
+                console.error('Error fetching contact data:', error);
+                setContactData(null);
             }
         };
 
