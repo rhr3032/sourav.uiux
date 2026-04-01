@@ -102,7 +102,7 @@ const Header = () => {
 
             {/* Mobile Sidebar Menu */}
             <div
-                className={`lg:hidden fixed top-0 right-0 h-screen bg-white/95 backdrop-blur-md shadow-2xl border-l border-white/30 w-64 transition-transform duration-300 ease-in-out z-40 ${
+                className={`lg:hidden fixed top-0 right-0 h-screen bg-white/10 backdrop-blur-xl shadow-2xl border-l border-white/40 w-64 transition-transform duration-300 ease-in-out z-40 ${
                     isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
                 }`}
                 style={{ paddingTop: isSticky ? "60px" : "80px" }}
