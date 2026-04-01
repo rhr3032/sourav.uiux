@@ -53,12 +53,12 @@ const Header = () => {
 
     return (
         <header
-            className={`navbar left-0 z-999 w-full transition-all duration-300 ${
+            className={`navbar left-0 z-50 w-full transition-all duration-300 ${
                 isSticky ? "fixed top-0 py-4" : "absolute top-0 py-7"
             }`}
         >
             <div className="container">
-                <nav className="flex justify-center lg:justify-center">
+                <nav className="flex justify-between lg:justify-center items-center">
                     {/* Desktop Navigation */}
                     <div className="hidden lg:flex items-center bg-white/20 backdrop-blur-md rounded-full px-6 py-3 shadow-lg border border-white/30">
                         <div className="flex items-center gap-0">
@@ -78,8 +78,8 @@ const Header = () => {
                         </div>
                     </div>
 
-                    {/* Mobile Hamburger Menu */}
-                    <div className="lg:hidden flex items-center">
+                    {/* Mobile Hamburger Menu (Right Side) */}
+                    <div className="lg:hidden flex items-center ml-auto">
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             className="text-black text-2xl focus:outline-none"
@@ -89,27 +89,39 @@ const Header = () => {
                         </button>
                     </div>
                 </nav>
+            </div>
 
-                {/* Mobile Menu Dropdown */}
-                {isMobileMenuOpen && (
-                    <div className="lg:hidden mt-4 bg-white/20 backdrop-blur-md rounded-2xl px-6 py-4 shadow-lg border border-white/30">
-                        <div className="flex flex-col gap-2">
-                            {sections.map((section) => (
-                                <button
-                                    key={section.id}
-                                    onClick={() => scrollToSection(section.id)}
-                                    className={`nav-button py-3 px-4 rounded-lg font-medium text-base transition-all duration-300 text-center ${
-                                        activeSection === section.id
-                                            ? "bg-primary text-white"
-                                            : "text-black hover:text-primary"
-                                    }`}
-                                >
-                                    {section.label}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                )}
+            {/* Backdrop Overlay */}
+            {isMobileMenuOpen && (
+                <div
+                    className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    style={{ top: isSticky ? "60px" : "80px" }}
+                />
+            )}
+
+            {/* Mobile Sidebar Menu */}
+            <div
+                className={`lg:hidden fixed top-0 right-0 h-screen bg-white/95 backdrop-blur-md shadow-2xl border-l border-white/30 w-64 transition-transform duration-300 ease-in-out z-40 ${
+                    isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+                }`}
+                style={{ paddingTop: isSticky ? "60px" : "80px" }}
+            >
+                <div className="flex flex-col gap-2 p-6">
+                    {sections.map((section) => (
+                        <button
+                            key={section.id}
+                            onClick={() => scrollToSection(section.id)}
+                            className={`nav-button py-3 px-4 rounded-lg font-medium text-base transition-all duration-300 text-left ${
+                                activeSection === section.id
+                                    ? "bg-primary text-white"
+                                    : "text-black hover:bg-gray-200 hover:text-primary"
+                            }`}
+                        >
+                            {section.label}
+                        </button>
+                    ))}
+                </div>
             </div>
         </header>
     );
