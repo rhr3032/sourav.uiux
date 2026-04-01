@@ -5,15 +5,14 @@ import { useState, useEffect } from "react";
 const Header = () => {
     const [activeSection, setActiveSection] = useState("hero");
     const [isSticky, setIsSticky] = useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const sections = [
-        { id: "hero", label: "Home" },
-        { id: "about", label: "About" },
-        { id: "experience", label: "Experience" },
-        { id: "education", label: "Education" },
-        { id: "work", label: "Work" },
-        { id: "contact", label: "Contact" },
+        { id: "hero", label: "Home", icon: "🏠" },
+        { id: "about", label: "About", icon: "👤" },
+        { id: "experience", label: "Experience", icon: "💼" },
+        { id: "education", label: "Education", icon: "🎓" },
+        { id: "work", label: "Work", icon: "📂" },
+        { id: "contact", label: "Contact", icon: "💬" },
     ];
 
     useEffect(() => {
@@ -47,7 +46,6 @@ const Header = () => {
         if (element) {
             element.scrollIntoView({ behavior: "smooth" });
             setActiveSection(sectionId);
-            setIsMobileMenuOpen(false);
         }
     };
 
@@ -58,7 +56,7 @@ const Header = () => {
             }`}
         >
             <div className="container">
-                <nav className="flex justify-between lg:justify-center items-center">
+                <nav className="flex justify-center items-center">
                     {/* Desktop Navigation */}
                     <div className="hidden lg:flex items-center bg-white/20 backdrop-blur-md rounded-full px-6 py-3 shadow-lg border border-white/30">
                         <div className="flex items-center gap-0">
@@ -78,50 +76,25 @@ const Header = () => {
                         </div>
                     </div>
 
-                    {/* Mobile Hamburger Menu (Right Side) */}
-                    <div className="lg:hidden flex items-center ml-auto">
-                        <button
-                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="text-black text-2xl focus:outline-none"
-                            aria-label="Toggle menu"
-                        >
-                            {isMobileMenuOpen ? "✕" : "☰"}
-                        </button>
+                    {/* Mobile Icon Navigation */}
+                    <div className="lg:hidden flex items-center bg-white/20 backdrop-blur-md rounded-full px-3 py-3 shadow-lg border border-white/30 gap-0">
+                        {sections.map((section) => (
+                            <button
+                                key={section.id}
+                                onClick={() => scrollToSection(section.id)}
+                                className={`nav-button py-2 px-3 rounded-full text-lg transition-all duration-300 ${
+                                    activeSection === section.id
+                                        ? "bg-primary scale-110"
+                                        : "text-black"
+                                }`}
+                                title={section.label}
+                                aria-label={section.label}
+                            >
+                                {section.icon}
+                            </button>
+                        ))}
                     </div>
                 </nav>
-            </div>
-
-            {/* Backdrop Overlay */}
-            {isMobileMenuOpen && (
-                <div
-                    className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    style={{ top: isSticky ? "60px" : "80px" }}
-                />
-            )}
-
-            {/* Mobile Sidebar Menu */}
-            <div
-                className={`lg:hidden fixed top-0 right-0 h-screen bg-white/10 backdrop-blur-xl shadow-2xl border-l border-white/40 w-64 transition-transform duration-300 ease-in-out z-40 ${
-                    isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-                }`}
-                style={{ paddingTop: isSticky ? "60px" : "80px" }}
-            >
-                <div className="flex flex-col gap-2 p-6">
-                    {sections.map((section) => (
-                        <button
-                            key={section.id}
-                            onClick={() => scrollToSection(section.id)}
-                            className={`nav-button py-3 px-4 rounded-lg font-medium text-base transition-all duration-300 text-left ${
-                                activeSection === section.id
-                                    ? "bg-primary text-white"
-                                    : "text-black hover:bg-gray-200 hover:text-primary"
-                            }`}
-                        >
-                            {section.label}
-                        </button>
-                    ))}
-                </div>
             </div>
         </header>
     );
