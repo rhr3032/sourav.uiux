@@ -36,7 +36,7 @@ const ScrollToTop = () => {
             {isVisible && (
                 <motion.button
                     onClick={scrollToTop}
-                    className="scroll-to-top fixed bottom-8 right-8 z-50 w-12 h-12 flex items-center justify-center"
+                    className="scroll-to-top hidden md:flex fixed bottom-8 right-8 z-50 w-12 h-12 items-center justify-center"
                     initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0 }}
