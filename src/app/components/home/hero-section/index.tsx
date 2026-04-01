@@ -36,17 +36,17 @@ const index = () => {
     };
 
     return (
-        <section className="relative hero-section overflow-hidden pt-35 md:pt-40 pb-12 lg:pb-30 xl:pt-52">
+        <section className="relative hero-section overflow-hidden pt-20 md:pt-40 pb-12 lg:pb-30 xl:pt-52">
             <div className="container">
                 <div className="flex justify-center items-center">
                     <motion.div 
-                        className="flex flex-col gap-4 md:gap-7 max-w-2xl text-center"
+                        className="flex flex-col gap-4 md:gap-7 max-w-2xl text-left md:text-center"
                         variants={containerVariants}
                         initial="hidden"
                         animate="visible"
                     >
                         <motion.div variants={itemVariants}>
-                            <div className="flex items-center justify-center gap-8">
+                            <div className="flex items-center justify-start md:justify-center gap-8">
                                 <h1>I'm Sourav</h1>
                                 <div className="wave">
                                     <Image src={"/images/home/banner/wave-icon.svg"} alt="wave-icon" width={62} height={62} className=""/>
