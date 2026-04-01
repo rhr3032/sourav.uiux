@@ -28,33 +28,38 @@ const Contact = () => {
         fetchData();
     }, []);
 
-    const reset = () => {
-        formData.name = "";
-        formData.number = "";
-        formData.email = "";
-        formData.message = "";
-    };
-
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
-        fetch("https://formsubmit.co/ajax/bhainirav772@gmail.com", {
+        const web3FormData = new FormData();
+        web3FormData.append("access_key", process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "6549f60a-5620-44e3-92ff-c2bb233417b4");
+        web3FormData.append("name", formData.name);
+        web3FormData.append("phone", formData.number);
+        web3FormData.append("email", formData.email);
+        web3FormData.append("message", formData.message);
+
+        fetch("https://api.web3forms.com/submit", {
             method: "POST",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({
-                name: formData.name,
-                number: formData.number,
-                email: formData.email,
-                message: formData.message,
-            }),
+            body: web3FormData,
         })
             .then((response) => response.json())
             .then((data) => {
-                setSubmitted(data.success);
-                reset();
+                if (data.success) {
+                    setSubmitted(true);
+                    setFormData({
+                        name: "",
+                        number: "",
+                        email: "",
+                        message: ""
+                    });
+                    // Auto-hide success message after 5 seconds
+                    setTimeout(() => setSubmitted(false), 5000);
+                } else {
+                    console.error("Form submission error:", data);
+                }
             })
             .catch((error) => {
-                console.log(error.message);
+                console.error("Error submitting form:", error.message);
             });
     };
     const handleChange = (e: any) => {
